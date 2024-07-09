@@ -125,7 +125,7 @@ func TestUserServiceServer_SearchUsers(t *testing.T) {
 		}
 		if err != nil {
 			t.Fatalf("stream.Recv: %v", err)
-		}
+		} 
 
 		receivedUsers = append(receivedUsers, resp.User)
 	}
