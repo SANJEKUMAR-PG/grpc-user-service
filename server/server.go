@@ -8,6 +8,7 @@ import (
 	pb "github.com/SANJEKUMAR-PG/grpc-user-service/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/reflection"
 	"google.golang.org/grpc/status"
 )
 
@@ -65,6 +66,8 @@ func main() {
 
 	grpcServer := grpc.NewServer()
 	pb.RegisterUserServiceServer(grpcServer, &UserServiceServer{})
+	reflection.Register(grpcServer)
+	log.Printf("Server listening at %v", lis.Addr())
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to start: %v", err)
 	}

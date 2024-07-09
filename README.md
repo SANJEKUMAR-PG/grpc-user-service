@@ -1,29 +1,42 @@
- 
-# gRPC User Service with Search
+# gRPC User Service
 
-This project implements a gRPC service for managing user details with search functionality. It allows fetching user details by ID, retrieving users by a list of IDs, and searching for users based on specific criteria.
+This repository contains a gRPC user service implemented in Go.
 
 ## Prerequisites
+Before building and running the application, ensure you have the following installed on your system:
+- Go 1.22.5 or higher
+- Protobuf compiler (`protoc`)
 
-Before running this application, ensure you have the following installed:
-- Go 1.22.5 or later
-- Docker (optional, for containerization)
+## Install Dependencies and Generate Protobuf Code
 
-## Installation and Setup
+To prepare your environment and generate necessary code, follow these steps:
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/SANJEKUMAR-PG/grpc-user-service.git
-   cd grpc-user-service
+```bash
+# Clone the repository
+git clone https://github.com/your-username/grpc-user-service.git
+cd grpc-user-service
 
-
-
+# Install dependencies
 go mod download
 
-docker build -t grpc-user-service .
+# Generate protobuf code
+protoc --go_out=. --go-grpc_out=. proto/user.proto
 
-docker run -p 9879:9879 grpc-user-service
+# Build the server
+cd server
+go build -o grpc-user-service .
 
-go run server/server.go
+# Run the server (replace with your actual command to run the server)
+./grpc-user-service
 
+# Run test
 go test -v ./...
+
+#Access gRPC Service
+grpcurl -plaintext -proto proto/user.proto localhost:9879 user_service.UserService/GetUserById -d '{"id": 1}'
+grpcurl -plaintext -proto proto/user.proto localhost:9879 user_service.UserService/GetUsersByIds -d '{"ids": [1, 2]}'
+grpcurl -plaintext -proto proto/user.proto localhost:9879 user_service.UserService/SearchUsers -d '{"city": "LA"}'
+
+
+
+
